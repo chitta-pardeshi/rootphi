@@ -90,7 +90,7 @@ class rootphi:
     def to_string(self):
         # Polynomial form in √φ powers: a + b√φ + c(√φ)^2 + d(√φ)^3
         terms = []
-        symbols = ["", "√φ", "√φ²", "√φ³"]
+        symbols = ["", "√φ", "φ", "φ√φ"]
         coeffs = [self.a, self.b, self.c, self.d]
 
         for coeff, sym in zip(coeffs, symbols):
@@ -118,7 +118,7 @@ class rootphi:
             return numerator
         else:
             return f"({numerator})/{self.e}"
-
+            
     def as_tuple(self):
         return (self.a, self.b, self.c, self.d, self.e)
 
