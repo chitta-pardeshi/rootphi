@@ -87,6 +87,37 @@ class rootphi:
     def __json__(self):
         return self.to_json()
 
+    def to_string(self):
+        # Polynomial form in √φ powers: a + b√φ + c(√φ)^2 + d(√φ)^3
+        terms = []
+        symbols = ["", "√φ", "√φ²", "√φ³"]
+        coeffs = [self.a, self.b, self.c, self.d]
+
+        for coeff, sym in zip(coeffs, symbols):
+            if coeff == 0:
+                continue
+            if coeff == 1 and sym:
+                terms.append(f"+ {sym}")
+            elif coeff == -1 and sym:
+                terms.append(f"- {sym}")
+            elif coeff > 0:
+                terms.append(f"+ {coeff}{sym}")
+            else:
+                terms.append(f"- {abs(coeff)}{sym}")
+
+        if not terms:
+            return "0"
+
+        # Fix leading plus if present
+        if terms[0].startswith("+ "):
+            terms[0] = terms[0][2:]
+
+        numerator = " ".join(terms)
+
+        if self.e == 1:
+            return numerator
+        else:
+            return f"({numerator})/{self.e}"
 
     def as_tuple(self):
         return (self.a, self.b, self.c, self.d, self.e)
