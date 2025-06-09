@@ -378,37 +378,12 @@ class rootphi:
         
         return self - other * (self // other)
 
-    def __pow__(self, exponent):
-        if not isinstance(exponent, int):
-            raise ValueError("Exponent must be an integer.")
-        
-        if exponent == 0:
-            return rootphi.one()
-
-        if exponent == 1:
-            return self
-
-        if self.sign() == 0:
-            if exponent < 0:
-                raise ZeroDivisionError("0 cannot be raised to a negative power.")
-            return rootphi.zero()
-        
+    def __pow__(self, n):
         result = rootphi.one()
-        base = self
-        abs_exponent = abs(exponent)
+        for _ in range(abs(n)):
+            result *= self
+        return result if n >= 0 else rootphi.one() / result
         
-        while abs_exponent > 0:
-            if abs_exponent % 2 == 1:
-                result *= base
-            base *= base
-            abs_exponent //= 2
-        
-        if exponent < 0:
-            result = rootphi.one() / result
-        
-        return result
-
-
     def __iadd__(self, other):
         if isinstance(other, int):
             other = rootphi(other)
