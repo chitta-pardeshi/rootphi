@@ -91,48 +91,6 @@ class rootphi:
     def as_tuple(self):
         return (self.a, self.b, self.c, self.d, self.e)
 
-    def to_string(self, grouped: bool = True) -> str:
-        def format_term(coeff, symbol=""):
-            if coeff == 0:
-                return ""
-            sign = "-" if coeff < 0 else "+"
-            abs_val = abs(coeff)
-            if abs_val == 1 and symbol:
-                term = symbol
-            else:
-                term = f"{abs_val}{symbol}"
-            return f" {sign} {term}"
-
-        if grouped:
-            inner1 = "".join([
-                format_term(self.a),
-                format_term(self.c, "φ")
-            ]).strip()
-            inner2 = "".join([
-                format_term(self.b),
-                format_term(self.d, "φ")
-            ]).strip()
-            inner1 = inner1.lstrip("+ ").rstrip() or "0"
-            if inner2:
-                grouped_expr = f"({inner1} + √φ({inner2}))"
-            else:
-                grouped_expr = f"({inner1})"
-        else:
-            parts = [
-                format_term(self.a),
-                format_term(self.b, "√φ"),
-                format_term(self.c, "φ"),
-                format_term(self.d, "φ√φ")
-            ]
-            expr = "".join(parts).strip()
-            grouped_expr = f"({expr.lstrip('+ ').rstrip() or '0'})"
-
-        if self.e == 1:
-            return grouped_expr
-        else:
-            return f"{grouped_expr} / {self.e}"
-
-
     def to_float(self):
         return float(self.as_decimal_string(precision=40))
 
